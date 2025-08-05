@@ -8,13 +8,15 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: ./blog/index.qmd
+        text: Blog
       - about.qmd
 
 format:
   html:
     theme:
-      - cosmo
-      - brand
+      light: flatly
+      dark: darkly
     css: styles.css
     toc: true
 
