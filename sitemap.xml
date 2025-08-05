@@ -2,10 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://juniorsundar.github.io/about.html</loc>
-    <lastmod>2025-07-25T19:55:24.334Z</lastmod>
+    <lastmod>2025-07-25T20:13:16.904Z</lastmod>
+  </url>
+  <url>
+    <loc>https://juniorsundar.github.io/blog/index.html</loc>
+    <lastmod>2025-08-05T20:38:09.282Z</lastmod>
   </url>
   <url>
     <loc>https://juniorsundar.github.io/index.html</loc>
-    <lastmod>2025-07-25T19:55:24.334Z</lastmod>
+    <lastmod>2025-07-25T19:56:34.127Z</lastmod>
+  </url>
+  <url>
+    <loc>https://juniorsundar.github.io/blog/06-08-2025.html</loc>
+    <lastmod>2025-08-05T20:38:32.300Z</lastmod>
   </url>
 </urlset>
