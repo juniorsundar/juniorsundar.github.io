@@ -5,7 +5,7 @@
     let forAll = f: nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ]
           (s: f nixpkgs.legacyPackages.${s});
     in {
-      # Keep in sync with HUGO_VERSION in .github/workflows/hugo.yml.
+      # CI (.github/workflows/hugo.yml) runs Hugo and Typst from this shell, so flake.lock is the version pin.
       devShells = forAll (pkgs: {
         default = pkgs.mkShell {
           packages = [ pkgs.hugo pkgs.typst ];
