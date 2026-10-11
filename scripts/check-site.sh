@@ -3,7 +3,7 @@
 # Usage: nix develop -c scripts/check-site.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
-out=$(mktemp -d); trap 'rm -rf "$out"' EXIT
+out=$(mktemp -d); trap 'rm -rf "$out" content/posts/zz-archetype-check' EXIT
 fail=0
 check() { if grep -q -- "$2" "$3"; then echo "ok   $1"; else echo "FAIL $1"; fail=1; fi; }
 refute() { if grep -q -- "$2" "$3"; then echo "FAIL $1"; fail=1; else echo "ok   $1"; fi; }
@@ -28,6 +28,8 @@ check  "garden link arrow"       'class="garden-link"' "$post"
 check  "internal link untouched" 'href="/about/">' "$post"
 refute "no garden: scheme leaks" 'href="garden:' "$post"
 check  "garden anchor kept"      'href="https://jr-vault-site.vercel.app/pages/bootloader/#intro"' "$post"
+check  "garden leading slash"    'href="https://jr-vault-site.vercel.app/pages/uses/"' "$post"
+check  "javascript: neutralised" 'href="#ZgotmplZ"' "$post"
 
 # Bundled media from bare file names.
 check "bundled gif"   'src="/posts/content-tools-sample/demo.gif"' "$post"

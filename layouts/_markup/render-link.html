@@ -1,10 +1,30 @@
-{{- /* [text](garden:<path>) links into the digital garden; every other link renders as Hugo's default would. */ -}}
+{{- /* [text](garden:<path>[#frag]) links into the digital garden (new tab, CSS adds ↗).
+     Every other link: verbatim copy of Hugo v0.167.0's embedded render-link.html (tpl/tplimpl/embedded/templates/_markup/). */ -}}
 {{- $u := urls.Parse .Destination -}}
 {{- if eq $u.Scheme "garden" -}}
-{{- $href := printf "%s/%s/" (strings.TrimSuffix "/" site.Params.gardenURL) (strings.Trim $u.Opaque "/") -}}
-{{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
-<a class="garden-link" href="{{ $href }}"
-  {{- with .Title }} title="{{ . }}"{{ end }} target="_blank" rel="noopener">{{ .Text }}</a>
+	{{- $href := printf "%s/%s/" (strings.TrimSuffix "/" site.Params.gardenURL) (strings.Trim (or $u.Opaque $u.Path) "/") -}}
+	{{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
+	<a class="garden-link" href="{{ $href }}" {{- with .Title }} title="{{ . }}" {{- end }} target="_blank" rel="noopener">{{ .Text }}</a>
 {{- else -}}
-<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
+{{- $href := $u.String -}}
+{{- if strings.HasPrefix $u.String "#" -}}
+	{{- $href = printf "%s#%s" .PageInner.RelPermalink $u.Fragment -}}
+{{- else if and $href (not $u.IsAbs) -}}
+	{{- $path := strings.TrimPrefix "./" $u.Path -}}
+	{{- with or
+		($.PageInner.GetPage $path)
+		($.PageInner.Resources.Get $path)
+		(resources.Get $path)
+	-}}
+		{{- $href = .RelPermalink -}}
+		{{- with $u.RawQuery -}}
+			{{- $href = printf "%s?%s" $href . -}}
+		{{- end -}}
+		{{- with $u.Fragment -}}
+			{{- $href = printf "%s#%s" $href . -}}
+		{{- end -}}
+	{{- end -}}
 {{- end -}}
+<a href="{{ $href }}" {{- with .Title }} title="{{ . }}" {{- end }}>{{ .Text }}</a>
+{{- end -}}
+{{- /**/ -}}
