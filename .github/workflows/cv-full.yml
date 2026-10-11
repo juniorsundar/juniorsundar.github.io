@@ -23,18 +23,19 @@ jobs:
         env:
           CV_PHONE: ${{ inputs.phone }}
           CV_ADDRESS: ${{ inputs.address }}
+        # A newline would split the mask (leaking the rest) and could inject workflow commands, so refuse it first.
         run: |
-          [ -n "$CV_PHONE" ] && echo "::add-mask::$CV_PHONE"
-          [ -n "$CV_ADDRESS" ] && echo "::add-mask::$CV_ADDRESS"
-          true
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
+          case "$CV_PHONE$CV_ADDRESS" in *$'\n'*|*$'\r'*) echo "phone/address must be a single line" >&2; exit 1;; esac
+          if [ -n "$CV_PHONE" ]; then echo "::add-mask::$CV_PHONE"; fi
+          if [ -n "$CV_ADDRESS" ]; then echo "::add-mask::$CV_ADDRESS"; fi
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31.11.1
       - name: Build CV
         env:
           CV_PHONE: ${{ inputs.phone }}
           CV_ADDRESS: ${{ inputs.address }}
         run: nix develop --command cv/build.sh cv-full.pdf
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: cv-full
           path: cv-full.pdf
