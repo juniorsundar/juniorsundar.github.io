@@ -21,13 +21,13 @@ experience:
       - Coordinate with ML researchers to design UAV data collection experiments for system-monitoring and predictive behavioral analysis models.
       - Oversee in-house test flights and coordinate with sub-contractors to gather over twenty hours of varied flight data.
       - Manage collaborative projects with university partners to ensure alignment with internal roadmap requirements.
-      - Integrate novel robotics platform (quadrapeds, UGVs, etc.) into in-house mission management stack.
+      - Integrate novel robotics platform (quadrupeds, UGVs, etc.) into in-house mission management stack.
     skills:
       - Agile Software Development
       - Project Lead
       - Technical Writing
     hardware:
-      - Unitree Go2 Quadraped
+      - Unitree Go2 Quadruped
     software:
       - JIRA
   - title: Senior System Integration Engineer
@@ -178,7 +178,7 @@ publications:
   - title: 'Secure Safety Filter: Towards Safe Flight Control under Sensor Attacks'
     date: October 2025
     description: 'IROS: International Conference on Intelligent Robots and Systems'
-    link: https://ssh-soc-workshop.github.io/2024/assets/data/papers/SSH-SoC-24_paper_4.pdf
+    link: https://arxiv.org/abs/2505.06845
   - title: Critical Sensor Failure Analysis for Proactive Mitigation in Secure System-on-Chip for UAVs
     date: June 2024
     description: 'SSH-SoC: Safety and Security in Heterogeneous Open System-on-Chip Platforms'

@@ -10,7 +10,6 @@ What I use day to day. Configs live in [nixos](https://github.com/juniorsundar/n
 ## Desk
 
 - **Desktop:** Intel Core i7-13700K, NVIDIA GeForce RTX 4090, 32 GB RAM, ASUS PRIME B760M-K
-- TODO: laptop, monitors, keyboard, mouse
 
 ## Software
 
