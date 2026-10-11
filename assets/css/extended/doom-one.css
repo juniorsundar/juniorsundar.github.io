@@ -1,0 +1,38 @@
+:root {
+  --theme: #fafafa; --entry: #f0f0f0; --primary: #383a42; --secondary: #9ca0a4;
+  --tertiary: #dfdfdf; --content: #383a42; --code-block-bg: #f0f0f0; --code-bg: #f0f0f0;
+  --border: #dfdfdf; --blue: #4078f2; --magenta: #a626a4; --green: #50a14f;
+  --orange: #da8548; --red: #e45649; --yellow: #986801;
+}
+:root[data-theme="dark"] {
+  --theme: #282c34; --entry: #21242b; --primary: #bbc2cf; --secondary: #5b6268;
+  --tertiary: #3f444a; --content: #bbc2cf; --code-block-bg: #21242b; --code-bg: #21242b;
+  --border: #3f444a; --blue: #51afef; --magenta: #c678dd; --green: #98be65;
+  --orange: #da8548; --red: #ff6c6b; --yellow: #ecbe7b;
+}
+body { font-family: system-ui, sans-serif; }
+h1, h2, h3, nav, .post-meta, pre, code { font-family: ui-monospace, monospace; }
+a { color: var(--blue); text-decoration: underline dashed; text-underline-offset: .2em; }
+.main { max-width: 760px; }
+h1::before { content: "# "; color: var(--magenta); }
+h2::before { content: "## "; color: var(--magenta); }
+h3::before { content: "### "; color: var(--magenta); }
+pre { color: var(--primary) !important; background: var(--code-block-bg) !important; }
+.post-title.entry-hint-parent { display:block; }
+/* prompt colours */
+/* block (not flex) so a long path wraps instead of overflowing on narrow screens */
+.logo a { display: block; font-family: ui-monospace, monospace; font-size: 1.15rem; overflow-wrap: anywhere; }
+.p-user { color: var(--green); } .p-path { color: var(--blue); } .p-sign { color: var(--magenta); }
+/* recent-posts list: date line, mono title, one-line summary, no cards */
+.home-info + .post-entry::before { content: "## Recent posts"; display: block; font: 600 1.25rem ui-monospace, monospace; color: var(--primary); margin: 0 0 1.4rem; order: -2; }
+.post-entry { background: none; border: 0; border-radius: 0; padding: 0; margin: 0 0 1.6rem; display: flex; flex-direction: column; }
+.post-entry:hover { transform: none; }
+.post-entry .entry-footer { order: -1; font-family: ui-monospace, monospace; color: var(--secondary); font-size: .82rem; }
+.post-entry .entry-header h2 { font-size: 1.02rem; font-weight: 600; color: var(--blue); }
+.post-entry .entry-header h2::before { content: none; }
+.post-entry:hover .entry-header h2 { color: var(--magenta); }
+.post-entry .entry-content { margin: .2rem 0 0; -webkit-line-clamp: 1; }
+.mermaid { background: none !important; text-align: center; }
+pre { border: 1px solid var(--border); }
+/* PaperMod's nav only scrolls sideways on narrow screens; wrap it so every item stays visible */
+@media (max-width: 600px) { .menu { flex-wrap: wrap; white-space: normal; row-gap: .3rem; } }

@@ -1,0 +1,37 @@
+baseURL: https://juniorsundar.github.io/
+locale: en-us
+title: Junior Sundar
+theme: PaperMod
+enableRobotsTXT: true
+pagination:
+  pagerSize: 10
+outputs:
+  home: [HTML, RSS, JSON]
+menu:
+  main:
+    - { name: home, url: /, weight: 1 }
+    - { name: blog, url: /posts/, weight: 2 }
+    - { name: projects, url: /projects/, weight: 3 }
+    - { name: about, url: /about/, weight: 4 }
+    - { name: uses, url: /uses/, weight: 5 }
+    - { name: garden, url: "https://jr-vault-site.vercel.app", weight: 6 }
+    - { identifier: search, name: search, url: /search/, weight: 7 }
+params:
+  defaultTheme: auto
+  label:
+    text: "junior@sundar:~ $"
+  DateFormat: "2006-01-02"
+  ShowReadingTime: true
+  ShowCodeCopyButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowRssButtonInSectionTermList: true
+  homeInfoParams:
+    Title: "Hi, I'm Junior."
+    Content: "Robotics software engineer. Placeholder bio, replaced in the launch-content ticket."
+  socialIcons:
+    - { name: github, url: "https://github.com/juniorsundar" }
+    - { name: rss, url: /index.xml }
+  fuseOpts:
+    threshold: 0.4
+    keys: [title, permalink, summary, content]

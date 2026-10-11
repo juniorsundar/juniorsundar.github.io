@@ -1,0 +1,24 @@
+<script>
+// Prompt-style site title: the path follows the current page, e.g. junior@sundar:~/posts/rust-costmap $
+(() => {
+  const a = document.querySelector(".logo a"); if (!a) return;
+  const base = new URL(a.href).pathname, p = location.pathname.slice(base.length).replace(/\/$/, "");
+  a.innerHTML = `<span class="p-user">junior@sundar</span>:<span class="p-path">~${p ? "/" + p : ""}</span>&nbsp;<span class="p-sign">$</span>`;
+})();
+</script>
+<script type="module">
+  // Mermaid bakes colours in at render time, so re-render whenever PaperMod's light/dark toggle flips data-theme.
+  // footer.html is partialCached per page kind, so detect diagrams client-side and only then fetch Mermaid.
+  const els = [...document.querySelectorAll("pre.mermaid")];
+  if (els.length) {
+    const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs");
+    els.forEach((e) => (e.dataset.src = e.textContent));
+    const draw = () => {
+      mermaid.initialize({ startOnLoad: false, theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default" });
+      els.forEach((e) => { e.removeAttribute("data-processed"); e.textContent = e.dataset.src; });
+      mermaid.run({ nodes: els });
+    };
+    draw();
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
+</script>
