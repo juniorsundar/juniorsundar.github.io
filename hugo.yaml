@@ -17,6 +17,8 @@ menu:
     - { name: garden, url: "https://jr-vault-site.vercel.app", weight: 6 }
     - { identifier: search, name: search, url: /search/, weight: 7 }
 params:
+  gardenURL: https://jr-vault-site.vercel.app
+  mainSections: [posts]
   defaultTheme: auto
   label:
     text: "junior@sundar:~ $"

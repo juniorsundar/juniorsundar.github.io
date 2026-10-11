@@ -1,0 +1,12 @@
+{{- /* Cards from data/projects.yaml. Context: a slice of project entries. Images live in assets/projects/ so a missing one fails the build. */ -}}
+<div class="project-cards">
+{{- range . }}
+  {{- $img := resources.Get (printf "projects/%s" .image) }}
+  {{- if not $img }}{{ errorf "data/projects.yaml: %q has no image assets/projects/%s" .name .image }}{{ end }}
+  <a class="project-card" href="{{ .link }}">
+    {{- with $img }}<img src="{{ .RelPermalink }}" alt="" loading="lazy">{{ end }}
+    <span class="project-name">{{ .name }}</span>
+    <span class="project-desc">{{ .desc }}</span>
+  </a>
+{{- end }}
+</div>

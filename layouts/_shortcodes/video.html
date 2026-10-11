@@ -1,0 +1,4 @@
+{{- /* Overrides PaperMod's video: resolve bare file names from the post's own bundle. */ -}}
+{{- $src := .Get "src" -}}
+{{- with .Page.Resources.Get $src }}{{ $src = .RelPermalink }}{{ end -}}
+<video src="{{ $src }}" controls muted playsinline preload="metadata"></video>

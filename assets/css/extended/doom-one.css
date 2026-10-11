@@ -24,7 +24,7 @@ pre { color: var(--primary) !important; background: var(--code-block-bg) !import
 .logo a { display: block; font-family: ui-monospace, monospace; font-size: 1.15rem; overflow-wrap: anywhere; }
 .p-user { color: var(--green); } .p-path { color: var(--blue); } .p-sign { color: var(--magenta); }
 /* recent-posts list: date line, mono title, one-line summary, no cards */
-.home-info + .post-entry::before { content: "## Recent posts"; display: block; font: 600 1.25rem ui-monospace, monospace; color: var(--primary); margin: 0 0 1.4rem; order: -2; }
+.recent-posts { font-size: 1.25rem; margin: 0 0 1.4rem; }
 .post-entry { background: none; border: 0; border-radius: 0; padding: 0; margin: 0 0 1.6rem; display: flex; flex-direction: column; }
 .post-entry:hover { transform: none; }
 .post-entry .entry-footer { order: -1; font-family: ui-monospace, monospace; color: var(--secondary); font-size: .82rem; }
@@ -36,3 +36,17 @@ pre { color: var(--primary) !important; background: var(--code-block-bg) !import
 pre { border: 1px solid var(--border); }
 /* PaperMod's nav only scrolls sideways on narrow screens; wrap it so every item stays visible */
 @media (max-width: 600px) { .menu { flex-wrap: wrap; white-space: normal; row-gap: .3rem; } }
+/* garden links: a subtle arrow marks a jump into the digital garden */
+.garden-link::after { content: "\00a0↗"; font-size: .8em; color: var(--secondary); }
+/* project cards (data/projects.yaml) */
+.project-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 1rem; margin: 1rem 0 2rem; }
+.project-card { display: flex; flex-direction: column; gap: .3rem; padding: .8rem; border: 1px solid var(--border); border-radius: 6px; background: var(--entry); text-decoration: none; color: var(--content); }
+.project-card:hover { border-color: var(--blue); }
+.project-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; margin: 0 0 .3rem; }
+.project-name { font-family: ui-monospace, monospace; font-weight: 600; color: var(--orange); }
+.project-desc { font-size: .88rem; }
+/* homepage: home_info.html emits the featured row before the post list; flex order moves it after the posts */
+.main:has(> .featured-projects) { display: flex; flex-direction: column; }
+.featured-projects { order: 1; margin-top: 1rem; }
+.featured-projects h2 { font-size: 1.25rem; margin: 0 0 .4rem; }
+.main:has(> .featured-projects) > .page-footer { order: 2; }

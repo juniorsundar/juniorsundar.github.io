@@ -1,0 +1,22 @@
+{{- /* Overrides PaperMod's home_info.html (same intro markup) to add the Recent posts heading and the featured-projects row; CSS orders the row below the post list. */ -}}
+{{- with site.Params.homeInfoParams }}
+<article class="first-entry home-info">
+    <header class="entry-header">
+        <h1>{{ .Title | markdownify }}</h1>
+    </header>
+    <div class="entry-content md-content">
+        {{ $opts := dict "display" "block" }}
+        {{ .Content | $.Page.RenderString $opts }}
+    </div>
+    <footer class="entry-footer">
+        {{ partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
+    </footer>
+</article>
+{{- end -}}
+<h2 class="recent-posts">Recent posts</h2>
+{{- with where hugo.Data.projects "featured" true }}
+<section class="featured-projects">
+    <h2>Selected projects</h2>
+    {{ partial "project-cards.html" . }}
+</section>
+{{- end }}

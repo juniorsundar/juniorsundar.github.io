@@ -1,0 +1,10 @@
+{{- /* [text](garden:<path>) links into the digital garden; every other link renders as Hugo's default would. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- if eq $u.Scheme "garden" -}}
+{{- $href := printf "%s/%s/" (strings.TrimSuffix "/" site.Params.gardenURL) (strings.Trim $u.Opaque "/") -}}
+{{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
+<a class="garden-link" href="{{ $href }}"
+  {{- with .Title }} title="{{ . }}"{{ end }} target="_blank" rel="noopener">{{ .Text }}</a>
+{{- else -}}
+<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
+{{- end -}}

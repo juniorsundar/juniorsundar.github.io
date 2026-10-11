@@ -1,0 +1,11 @@
+# Project cards for /projects/ and the homepage "Selected projects" row (featured: true).
+# image: a file in assets/projects/ (screenshot or GIF). Placeholders, replaced in the launch-content ticket.
+- name: sample-project
+  desc: Placeholder project with a GIF.
+  link: https://github.com/juniorsundar
+  image: sample.gif
+  featured: true
+- name: another-project
+  desc: Placeholder project, not featured.
+  link: https://github.com/juniorsundar
+  image: sample.gif
