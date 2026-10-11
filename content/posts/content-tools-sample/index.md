@@ -1,7 +1,7 @@
 ---
 title: "Content tools sample"
 date: 2026-10-11
-summary: "Draft that exercises bundled media, garden links, maths and Mermaid."
+summary: "Test fixture for scripts/check-site.sh. Always a draft, so it never reaches the live site."
 tags: [meta]
 draft: true
 ---

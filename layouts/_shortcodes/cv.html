@@ -1,0 +1,30 @@
+{{- /* About-page CV, rendered from data/cv.yaml: the same file cv/cv.typ turns into /cv.pdf. */ -}}
+{{- $cv := hugo.Data.cv -}}
+<p class="cv-download"><a href="{{ "cv.pdf" | relURL }}">Download CV (PDF)</a></p>
+{{- range $section := slice
+  (dict "title" "Experience" "key" "experience")
+  (dict "title" "Projects" "key" "projects")
+  (dict "title" "Publications" "key" "publications")
+  (dict "title" "Education" "key" "education")
+  (dict "title" "Certifications" "key" "certifications") }}
+{{- with index $cv $section.key }}
+<h2 id="{{ $section.key }}">{{ $section.title }}</h2>
+{{- range . }}
+<div class="cv-entry">
+  <div class="cv-head">
+    <strong>{{ with .link }}<a href="{{ . }}">{{ end }}{{ .title }}{{ with .link }}</a>{{ end }}</strong>
+    <span class="cv-date">{{ .date }}</span>
+  </div>
+  {{- if or .description .location }}
+  <div class="cv-sub">{{ .description }}{{ if and .description .location }} <span class="nowrap">·&nbsp;{{ .location }}</span>{{ else }}{{ .location }}{{ end }}</div>
+  {{- end }}
+  {{- with .highlights }}
+  <ul>{{ range . }}<li>{{ . | markdownify }}</li>{{ end }}</ul>
+  {{- end }}
+  {{- $tags := slice }}
+  {{- range slice .skills .hardware .software }}{{ with . }}{{ $tags = $tags | append . }}{{ end }}{{ end }}
+  {{- with $tags }}<p class="cv-tags">{{ range $i, $t := . }}{{ if $i }} {{ end }}<span>{{ if $i }}·&nbsp;{{ end }}{{ $t }}</span>{{ end }}</p>{{ end }}
+</div>
+{{- end }}
+{{- end }}
+{{- end }}

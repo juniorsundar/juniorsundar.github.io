@@ -29,6 +29,7 @@ check  "internal link untouched" 'href="/about/">' "$post"
 refute "no garden: scheme leaks" 'href="garden:' "$post"
 check  "garden anchor kept"      'href="https://jr-vault-site.vercel.app/pages/bootloader/#intro"' "$post"
 check  "garden leading slash"    'href="https://jr-vault-site.vercel.app/pages/uses/"' "$post"
+check  "bare garden: is the root" 'href="https://jr-vault-site.vercel.app/"' "$out/live/about/index.html"
 check  "javascript: neutralised" 'href="#ZgotmplZ"' "$post"
 
 # Bundled media from bare file names.
@@ -37,10 +38,14 @@ check "bundled video" 'src="/posts/content-tools-sample/demo.mp4"' "$post"
 [ -f "$out/drafts/posts/content-tools-sample/demo.gif" ] && echo "ok   gif published" || { echo "FAIL gif published"; fail=1; }
 
 # Project cards and the featured row.
+check  "about renders cv entries" 'class="cv-entry"' "$out/live/about/index.html"
+check  "about links the cv pdf"   'href="/cv.pdf"' "$out/live/about/index.html"
+refute "no phone on about"        '+971' "$out/live/about/index.html"
 check  "projects page has cards"  'class="project-card' "$out/live/projects/index.html"
 check  "featured row on home"     'class="featured-projects' "$out/live/index.html"
 check  "featured row has a card"  'class="project-card' "$out/live/index.html"
-check  "recent posts heading"     'class="recent-posts"' "$out/live/index.html"
+check  "recent posts heading"     'class="recent-posts"' "$out/drafts/index.html"
+refute "no empty posts heading"   'class="recent-posts"' "$out/live/index.html"
 
 # Drafts stay out of the live build.
 [ ! -e "$out/live/posts/content-tools-sample" ] && echo "ok   draft excluded from live build" || { echo "FAIL draft excluded from live build"; fail=1; }

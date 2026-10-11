@@ -1,11 +1,33 @@
 # Project cards for /projects/ and the homepage "Selected projects" row (featured: true).
-# image: a file in assets/projects/ (screenshot or GIF). Placeholders, replaced in the launch-content ticket.
-- name: sample-project
-  desc: Placeholder project with a GIF.
-  link: https://github.com/juniorsundar
-  image: sample.gif
+# image: a file in assets/projects/ (screenshot or GIF, ~480x270).
+- name: oxmpl
+  desc: Oxidised Motion-Planning Library. Sampling-based planners in Rust, with Python and WASM bindings.
+  link: https://github.com/juniorsundar/oxmpl
+  image: oxmpl.webp
   featured: true
-- name: another-project
-  desc: Placeholder project, not featured.
-  link: https://github.com/juniorsundar
-  image: sample.gif
+- name: px4-log-tool
+  desc: All-in-one CLI for PX4 flight logs. Converts between ulog, ROS 2 bags and CSV.
+  link: https://github.com/tiiuae/px4-log-tool
+  image: px4-log-tool.webp
+  featured: true
+- name: ur5_gripper_control
+  desc: UR5 with a Robotiq gripper. Motion planning with MoveIt and workspace perception with Octomap.
+  link: https://github.com/juniorsundar/ur5_gripper_control
+  image: ur5_gripper_control.gif
+  featured: true
+- name: move_bot_sim
+  desc: Kinova Gen3 arm on a PAL omni base, driven by MoveIt and move_base.
+  link: https://github.com/juniorsundar/move_bot_sim
+  image: move_bot_sim.gif
+- name: refer.nvim
+  desc: A Neovim picker that doesn't get in your way.
+  link: https://github.com/juniorsundar/refer.nvim
+  image: refer.nvim.gif
+- name: cling.nvim
+  desc: Thin Neovim wrapper around your command line.
+  link: https://github.com/juniorsundar/cling.nvim
+  image: cling.nvim.webp
+- name: neorg-extras
+  desc: Roam and Agenda for Neorg. Organise your life in plain text.
+  link: https://github.com/juniorsundar/neorg-extras
+  image: neorg-extras.webp

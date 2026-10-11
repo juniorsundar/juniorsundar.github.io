@@ -1,0 +1,41 @@
+# Manually build the CV with phone/address (which never live in the repo) and download it as an artifact.
+# Accepted risk (owner's choice): in this public repo the artifact is downloadable by any signed-in GitHub
+# user until it expires, so it is kept for 1 day. Delete it from the run page once downloaded.
+name: Full CV (private details)
+on:
+  workflow_dispatch:
+    inputs:
+      phone:
+        description: Phone number to print on the CV
+        required: false
+        default: ""
+      address:
+        description: Postal address to print on the CV
+        required: false
+        default: ""
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mask inputs in logs
+        env:
+          CV_PHONE: ${{ inputs.phone }}
+          CV_ADDRESS: ${{ inputs.address }}
+        run: |
+          [ -n "$CV_PHONE" ] && echo "::add-mask::$CV_PHONE"
+          [ -n "$CV_ADDRESS" ] && echo "::add-mask::$CV_ADDRESS"
+          true
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - name: Build CV
+        env:
+          CV_PHONE: ${{ inputs.phone }}
+          CV_ADDRESS: ${{ inputs.address }}
+        run: nix develop --command cv/build.sh cv-full.pdf
+      - uses: actions/upload-artifact@v7
+        with:
+          name: cv-full
+          path: cv-full.pdf
+          retention-days: 1

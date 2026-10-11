@@ -13,7 +13,9 @@
     </footer>
 </article>
 {{- end -}}
+{{- if where site.RegularPages "Type" "in" site.Params.mainSections }}
 <h2 class="recent-posts">Recent posts</h2>
+{{- end }}
 {{- with where hugo.Data.projects "featured" true }}
 <section class="featured-projects">
     <h2>Selected projects</h2>

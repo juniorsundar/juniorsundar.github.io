@@ -2,7 +2,9 @@
      Every other link: verbatim copy of Hugo v0.167.0's embedded render-link.html (tpl/tplimpl/embedded/templates/_markup/). */ -}}
 {{- $u := urls.Parse .Destination -}}
 {{- if eq $u.Scheme "garden" -}}
-	{{- $href := printf "%s/%s/" (strings.TrimSuffix "/" site.Params.gardenURL) (strings.Trim (or $u.Opaque $u.Path) "/") -}}
+	{{- $path := strings.Trim (or $u.Opaque $u.Path) "/" -}}
+	{{- $href := printf "%s/" (strings.TrimSuffix "/" site.Params.gardenURL) -}}
+	{{- with $path }}{{ $href = printf "%s%s/" $href . }}{{ end -}}
 	{{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
 	<a class="garden-link" href="{{ $href }}" {{- with .Title }} title="{{ . }}" {{- end }} target="_blank" rel="noopener">{{ .Text }}</a>
 {{- else -}}

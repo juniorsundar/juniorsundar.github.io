@@ -1,0 +1,226 @@
+name: Junior Sundar
+email: juniorsundar@gmail.com
+github: juniorsundar
+linkedin: juniorsundar
+positions:
+  - Lead Engineer
+  - Senior System Integration Engineer
+  - Robotics (Software) Engineer
+summary:
+  - Lead Engineer with specialisation in Robotics with over 5 years of professional experience with a thorough understanding of cyber-physical systems, applied knowledge in robotic systems design, algorithms in autonomy and artificial intelligence, computer vision, and machine learning.
+  - Highly adaptive to organisation specific processes with a proven track record in leading continuous integration and deployment projects to consistently achieve deliverable requirements and deadlines.
+  - Highly result-oriented and effective interface management skills, with an enthusiastic learner’s mindset.
+  - Seeking challenging opportunities in the field of mechatronics and automation across diverse industry domains.
+experience:
+  - title: Lead Engineer
+    location: Abu Dhabi, U.A.E.
+    date: October 2025 - Present
+    description: Technology Innovation Institute
+    highlights:
+      - Lead the integration of the team's first module into the department-wide UxV mission controller by managing seven engineers and researchers under Agile principles.
+      - Coordinate with ML researchers to design UAV data collection experiments for system-monitoring and predictive behavioral analysis models.
+      - Oversee in-house test flights and coordinate with sub-contractors to gather over twenty hours of varied flight data.
+      - Manage collaborative projects with university partners to ensure alignment with internal roadmap requirements.
+      - Integrate novel robotics platform (quadrapeds, UGVs, etc.) into in-house mission management stack.
+    skills:
+      - Agile Software Development
+      - Project Lead
+      - Technical Writing
+    hardware:
+      - Unitree Go2 Quadraped
+    software:
+      - JIRA
+  - title: Senior System Integration Engineer
+    location: Abu Dhabi, U.A.E.
+    date: September 2024 - October 2025
+    description: Technology Innovation Institute
+    highlights:
+      - Designed and developed a novel ROS 2 framework from scratch to enable platform-agnostic control barrier function plugins for UxV mission control.
+      - Ensured software robustness with blackbox systems and established a CI/CD pipeline with custom runners and multi-architecture builds.
+      - Served as the primary contact for team-wide integration projects leveraging NixOS and Docker for the mission controller stack.
+      - Delivered comprehensive documentation and performed integration testing to validate system stability.
+    skills:
+      - C++
+      - Go
+      - Nix
+      - CI/CD
+      - Integration Testing
+      - Control Barrier Functions
+      - SITL/HITL
+      - Quadrotor Piloting
+      - Design of Experiment
+    hardware:
+      - Quadrotors (Holybro x500, T-Motor M690B)
+      - Agile Scout Mini
+      - Pixhawk Flight Controller
+      - NVIDIA Jetson Orin NX
+    software:
+      - ROS 2
+      - Gazebo Simulation
+      - Docker
+      - Nav2
+      - PX4-Autopilot
+      - Linux (NixOS, Ubuntu)
+      - Virtualisation (VM)
+      - GitHub Actions
+  - title: Robotics Engineer
+    location: Abu Dhabi, U.A.E.
+    date: October 2023 - September 2024
+    description: Unikie MEA Limited
+    highlights:
+      - Work closely with clients in securing multi-agent, aerial systems, moving towards safe, level-5 autonomy.
+      - Built and deployed quadcopters from scratch running on proprietary flight controller hardware and firmware (a derivative of Pixhawk series flight controllers and PX4-Autopilot) and mission control stack.
+      - Coordinated experiments to collect over six hours of of drone flight data of normal and anomalous missions to build a comprehensive dataset for training machine learning models.
+      - Developed and deployed API to inject faults into drone flight controller dynamically during runtime to emulate behaviour under fault.
+      - Developed and deployed fully automated software-in-the-loop (SITL) and semi-automated hardware-in-the-loop (HITL) framework to collect simulated drone flight data with and without fault injection for randomised flight missions and fault types.
+    skills:
+      - Python
+      - C++
+      - SITL/HITL
+      - Quadrotor Piloting
+      - Data Collection for Machine-Learning
+      - Fault Injection
+    hardware:
+      - Quadrotors (Holybro x500, T-Motor M690B)
+      - Pixhawk Flight Controller
+      - NVIDIA Jetson Orin NX
+      - Raspberry Pi
+    software:
+      - ROS 2
+      - Gazebo Simulation
+      - PX4-Autopilot
+      - Linux (Ubuntu)
+  - title: Robotics Engineer
+    location: Delft, Netherlands
+    date: May 2023 - July 2023
+    description: Honest AgTech B.V.
+    highlights:
+      - Applied robotics solutions to automate agricultural processes in greenhouses using UR robotic platform.
+      - Applied computer vision and obstacle detection methods with image segmentation and identification algorithms (Neural Networks) to differentiate between plant attributes to optimise path-planning in a sensitive workspace.
+      - Performed Site Reliability Engineering (SRE) for an automated UV disinfecting bot in greenhouses.
+      - Applied Agile software development principles to deliver testable and scalable results to ensure that a reliable product is delivered to the customer.
+    skills:
+      - Python
+      - C++
+      - Path/Motion Planning
+      - Computer Vision
+      - Site Reliability Engineering
+      - Agile Software Development
+    hardware:
+      - Robotic Manipulators (UR5e)
+    software:
+      - ROS 1
+      - MoveIt
+      - Gazebo Simulation
+      - Octomaps
+      - PointCloud Library
+      - OpenCV
+      - Linux (Ubuntu)
+      - JIRA
+  - title: Robotics Software Engineer
+    location: Sharjah, U.A.E.
+    date: August 2021 - April 2023
+    description: Maria Medical Technology
+    highlights:
+      - Applied robotics solutions to automate laser aesthetic devices with UR and Omron TM robot platforms.
+      - Conceptualised medical device automation solutions on ROS framework, including computer-vision and perception systems, path-planning, and machine learning principles.
+      - Developed hardware-software interface for Vention linear belt-actuator with MQTT network protocol.
+      - Prototyped and manufactured modular tools for medical devices using 3D printing technology.
+    skills:
+      - Python
+      - C++
+      - Path/Motion Planning
+      - Computer Vision
+      - Image Segmentation
+      - 3D Printing
+    hardware:
+      - UR5e
+      - TM500
+      - Vention Linear Belt-Actuator
+      - Creality FDM and Resin Printers
+      - Intel Realsense RGBD Camera
+    software:
+      - ROS 1
+      - MoveIt
+      - Gazebo Simulation
+      - Octomaps
+      - PointCloud Library
+      - OpenCV
+      - Open3D
+      - Mediapipe
+      - CAD (FreeCAD
+      - Solidworks)
+      - Linux (Ubuntu)
+      - MQTT
+projects:
+  - title: OxMPL - Oxidised Motion-Planning Library
+    date: May 2024 - Present
+    description: Developer/Maintainer of Motion-Planning Library written in Rust
+    link: https://github.com/juniorsundar/oxmpl
+  - title: All-in-One PX4 Log Tool
+    date: May 2024 - Present
+    description: Developer/Maintainer of PX4 log-handling CLI Tool written in Python
+    link: https://github.com/tiiuae/px4-log-tool
+  - title: Roam and Agenda in Neorg
+    date: August 2024 - March 2025
+    description: Developer/Maintainer of Neovim Plugin written in Lua
+    link: https://github.com/juniorsundar/neorg-extras
+certifications:
+  - title: Introduction to Concurrent Programming with GPUs
+    date: May 2025
+    description: by Johns Hopkins University on Coursera
+    link: https://www.coursera.org/account/accomplishments/verify/SFLGS7DZYW0S
+  - title: Google Data Analytics Specialization
+    date: August 2023
+    description: by Google on Coursera
+    link: https://www.coursera.org/account/accomplishments/specialization/certificate/C3VNK5DACEJF
+publications:
+  - title: 'Secure Safety Filter: Towards Safe Flight Control under Sensor Attacks'
+    date: October 2025
+    description: 'IROS: International Conference on Intelligent Robots and Systems'
+    link: https://ssh-soc-workshop.github.io/2024/assets/data/papers/SSH-SoC-24_paper_4.pdf
+  - title: Critical Sensor Failure Analysis for Proactive Mitigation in Secure System-on-Chip for UAVs
+    date: June 2024
+    description: 'SSH-SoC: Safety and Security in Heterogeneous Open System-on-Chip Platforms'
+    link: https://ssh-soc-workshop.github.io/2024/assets/data/papers/SSH-SoC-24_paper_4.pdf
+education:
+  - title: University of Colorado Boulder
+    location: Boulder CO, U.S.A.
+    date: August 2019 - May 2021
+    description: M.S. in Mechanical Engineering
+    highlights:
+      - '**Computer Science**: Coordinated Control of Multi-Agent Systems. Algorithmic Motion Planning.'
+      - '**Control Systems**: Feedback Control. Linear Control Systems. Statistical Estimation of Dynamical Systems. Digital Controls.'
+      - '**Mechanical Engineering**: Microsystems Integration. Mathematics for Mechanical Engineering.'
+      - '**Robotics**: Algorithmic Foundations of Human-Robot Interactions. Mechatronics and Robotics. Modeling of Human Movement.'
+  - title: Heriot-Watt University
+    location: Dubai, U.A.E.
+    date: September 2016 - July 2021
+    description: B.Eng. (Hons) in Mechanical Engineering
+languages:
+  - category: Programming
+    items:
+      - name: Python
+        strong: true
+      - name: C++
+        strong: true
+      - name: Rust
+        strong: true
+      - name: Nix
+        strong: false
+      - name: Go
+        strong: false
+      - name: Lua
+        strong: false
+  - category: Spoken
+    items:
+      - name: English
+        strong: true
+      - name: Hindi
+        strong: true
+      - name: Spanish
+        strong: false
+      - name: Tamil
+        strong: false
+      - name: Malayalam
+        strong: false

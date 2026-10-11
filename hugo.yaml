@@ -30,9 +30,10 @@ params:
   ShowRssButtonInSectionTermList: true
   homeInfoParams:
     Title: "Hi, I'm Junior."
-    Content: "Robotics software engineer. Placeholder bio, replaced in the launch-content ticket."
+    Content: "Robotics software engineer in Abu Dhabi. I build mission-control and autonomy software for drones, ground robots and quadrupeds, and write about robotics, Rust, Neovim and whatever else I'm tinkering with. Raw notes and stories live in my [digital garden](garden:)."
   socialIcons:
     - { name: github, url: "https://github.com/juniorsundar" }
+    - { name: linkedin, url: "https://www.linkedin.com/in/juniorsundar" }
     - { name: rss, url: /index.xml }
   fuseOpts:
     threshold: 0.4

@@ -43,10 +43,18 @@ pre { border: 1px solid var(--border); }
 .project-card { display: flex; flex-direction: column; gap: .3rem; padding: .8rem; border: 1px solid var(--border); border-radius: 6px; background: var(--entry); text-decoration: none; color: var(--content); }
 .project-card:hover { border-color: var(--blue); }
 .project-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; margin: 0 0 .3rem; }
-.project-name { font-family: ui-monospace, monospace; font-weight: 600; color: var(--orange); }
+.project-name { font-family: ui-monospace, monospace; font-weight: 600; color: var(--orange); overflow-wrap: break-word; font-size: .95rem; }
 .project-desc { font-size: .88rem; }
 /* homepage: home_info.html emits the featured row before the post list; flex order moves it after the posts */
 .main:has(> .featured-projects) { display: flex; flex-direction: column; }
 .featured-projects { order: 1; margin-top: 1rem; }
 .featured-projects h2 { font-size: 1.25rem; margin: 0 0 .4rem; }
 .main:has(> .featured-projects) > .page-footer { order: 2; }
+/* About-page CV (layouts/_shortcodes/cv.html) */
+.cv-entry { margin: 0 0 1.4rem; }
+.cv-head { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.cv-date, .cv-sub, .cv-tags { font-family: ui-monospace, monospace; font-size: .82rem; color: var(--secondary); }
+.cv-sub { font-style: italic; }
+.cv-entry ul { margin: .4rem 0; }
+.cv-tags { margin: .2rem 0 0; }
+.cv-tags span, .cv-sub .nowrap { white-space: nowrap; }
