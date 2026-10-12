@@ -28,6 +28,6 @@ _Avoid_: resume
 A CV built for one application from a chosen subset of Projects, kept within a page budget. Never published.
 _Avoid_: custom CV, variant
 
-**Full CV**:
-The Public CV plus phone and address, built on demand and never committed.
-_Avoid_: private CV
+**Private details**:
+Phone and address. Added only to locally built CVs, never committed or published.
+_Avoid_: Full CV, personal info
