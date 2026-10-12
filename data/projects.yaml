@@ -21,7 +21,6 @@
   link: https://github.com/tiiuae/px4-log-tool
   start: "2024-05"
   image: px4-log-tool.webp
-  featured: true
   tags: [Python, PX4, ROS 2]
 - slug: ur5_gripper_control
   name: ur5_gripper_control
@@ -30,7 +29,6 @@
   link: https://github.com/juniorsundar/ur5_gripper_control
   start: "2022-10"
   image: ur5_gripper_control.gif
-  featured: true
   tags: [ROS 1, MoveIt, Octomap, Python]
 - slug: move_bot_sim
   name: move_bot_sim
@@ -47,6 +45,7 @@
   link: https://github.com/juniorsundar/refer.nvim
   start: "2026-02"
   image: refer.nvim.gif
+  featured: true
   tags: [Lua, Neovim]
 - slug: cling.nvim
   name: cling.nvim
@@ -55,6 +54,7 @@
   link: https://github.com/juniorsundar/cling.nvim
   start: "2026-01"
   image: cling.nvim.webp
+  featured: true
   tags: [Lua, Neovim]
 - slug: neorg-extras
   name: neorg-extras
