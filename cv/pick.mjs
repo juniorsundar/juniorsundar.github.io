@@ -24,7 +24,9 @@ const typst = (...args) =>
   execFileSync("typst", [...args, "--root", "."], { cwd: ROOT, stdio: ["ignore", "pipe", "ignore"] }).toString();
 // json.encode() yields a JSON string, which typst prints as a string literal: hence the two parses.
 const projects = JSON.parse(JSON.parse(typst("eval", 'json.encode(yaml("/data/projects.yaml"))')));
+// Private details come from the environment, are shown in the page while the toggle is on, and are never saved.
 const privateDetails = (key) => process.env[key] || "";
+const slugsMissing = (picks) => picks.map((p) => p.slug).filter((s) => !projects.some((p) => p.slug === s));
 
 function build(picks, withPrivate) {
   const pass = [
@@ -35,7 +37,7 @@ function build(picks, withPrivate) {
   typst("compile", ...pass, DOC, PDF);
   // typst eval takes its context file via --in, and evaluates it before the expression.
   const { pages, fill } = JSON.parse(typst("eval", "query(<pages>).first().value", ...pass, "--in", DOC));
-  return { pages, fill, dropped: picks.map((p) => p.slug).filter((s) => !projects.some((p) => p.slug === s)) };
+  return { pages, fill, dropped: slugsMissing(picks) };
 }
 
 const selections = () => (existsSync(SAVED) ? readdirSync(SAVED).filter((f) => f.endsWith(".json")) : []);
@@ -45,7 +47,11 @@ function save(name, data) {
   mkdirSync(SAVED, { recursive: true });
   writeFileSync(join(SAVED, `${name}.json`), JSON.stringify(data, null, 2) + "\n");
 }
-const load = (name) => JSON.parse(readFileSync(join(SAVED, `${name}.json`)));
+const load = (name) => {
+  // Loading never fails on a Project that has since been removed or renamed: those slugs come back as `dropped`.
+  const s = JSON.parse(readFileSync(join(SAVED, `${name}.json`)));
+  return { ...s, dropped: slugsMissing(s.picks || []) };
+};
 
 const html = () => `<!doctype html><meta charset=utf-8><title>Tailored CV</title>
 <style>
@@ -63,18 +69,21 @@ iframe{width:100%;height:100%;border:0}
   <div class=bar><input id=sel-name placeholder="selection name" size=14><button id=save>Save</button>
   <select id=saved><option value="">load…</option></select></div>
   <p id=priv><label><input type=checkbox id=pv ${privateDetails("CV_PHONE") || privateDetails("CV_ADDRESS") ? "" : "disabled"}> include phone &amp; address</label>
-  <small>${privateDetails("CV_PHONE") || privateDetails("CV_ADDRESS") ? "read from CV_PHONE/CV_ADDRESS; never saved" : "set CV_PHONE/CV_ADDRESS to enable"}</small></p>
+  <small id=pvvals></small></p>
 </aside><iframe id=f></iframe>
 <script>
 const PARTS=${JSON.stringify(PARTS)};
-let projects=[];
+let projects=[], dropped=[];
 const picks=()=>[...document.querySelectorAll(".p")].filter(p=>p.querySelector(".on").checked)
   .map(p=>({slug:p.dataset.slug,parts:[...p.querySelectorAll(".parts input:checked")].map(i=>i.value)}));
 async function go(){
   [...document.querySelectorAll(".p")].forEach(p=>p.classList.toggle("sel",p.querySelector(".on").checked));
+  pvvals.textContent=${JSON.stringify(privateDetails("CV_PHONE") || privateDetails("CV_ADDRESS") ? "reads CV_PHONE/CV_ADDRESS; never saved · " : "set CV_PHONE/CV_ADDRESS to enable")}
+    +(pv.checked?${JSON.stringify([privateDetails("CV_PHONE"), privateDetails("CV_ADDRESS")].filter(Boolean).join(" · ") || "(nothing set)")}:"");
   const r=await (await fetch("/build",{method:"POST",body:JSON.stringify({picks:picks(),private:pv.checked})})).json();
+  const gone=[...new Set([...dropped,...r.dropped])];
   c.textContent=r.pages+" page"+(r.pages>1?"s":"")+", last page "+r.fill+"% full"+(r.pages>2?"  ⚠ over 2-page budget":"")
-    +(r.dropped.length?"  ·  dropped: "+r.dropped.join(", "):"");
+    +(gone.length?"  ·  dropped: "+gone.join(", "):"");
   c.className=r.pages>2?"over":"";f.src="/cv.pdf?"+Date.now();
 }
 function row(p){const has={highlights:!!(p.highlights||[]).length,tags:!!(p.tags||[]).length,compact:true};
@@ -96,7 +105,7 @@ async function init(){const st=await (await fetch("/state")).json();projects=st.
 async function load(name){const s=await (await fetch("/selection?name="+encodeURIComponent(name))).json();
   document.querySelectorAll(".p").forEach(p=>{const pick=s.picks.find(x=>x.slug===p.dataset.slug);p.querySelector(".on").checked=!!pick;
     p.querySelectorAll(".parts input").forEach(i=>i.checked=!!pick&&pick.parts.includes(i.value))});
-  pv.checked=!!s.private;go()}
+  dropped=s.dropped||[];pv.checked=!!s.private;go()}
 init();
 </script>`;
 
@@ -108,7 +117,11 @@ const server = createServer(async (req, res) => {
   try {
     if (url.pathname === "/") return res.writeHead(200, { "content-type": "text/html; charset=utf-8" }).end(html());
     if (url.pathname === "/cv.pdf") return res.writeHead(200, { "content-type": "application/pdf" }).end(readFileSync(PDF));
-    if (url.pathname === "/state") return json(res, { projects, selections: selections().map((f) => f.slice(0, -5)) });
+    if (url.pathname === "/state") return json(res, {
+      projects,
+      selections: selections().map((f) => f.slice(0, -5)),
+      private: { phone: privateDetails("CV_PHONE"), address: privateDetails("CV_ADDRESS") },
+    });
     if (url.pathname === "/build") { const b = await body(req); return json(res, build(b.picks || [], !!b.private)); }
     if (url.pathname === "/save") {
       const b = await body(req);

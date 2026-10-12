@@ -57,9 +57,15 @@ check "build reports dropped slugs" '["gone"]' "$(curl -sf -XPOST -d '{"picks":[
 
 contains "save accepts a Selection" '"saved":"robotics-role"' \
   "$(curl -sf -XPOST -d '{"name":"robotics-role","picks":[{"slug":"oxmpl","parts":["tags"]}],"private":true}' $base/save)"
-check "load round-trips it" '{"picks":[{"slug":"oxmpl","parts":["tags"]}],"private":true}' \
+check "load round-trips it" '{"picks":[{"slug":"oxmpl","parts":["tags"]}],"private":true,"dropped":[]}' \
   "$(curl -sf "$base/selection?name=robotics-role" | tr -d '\n ')"
 missing "saved Selection holds no phone number" "999888777" "$(cat "$tmp/data/cv-selections/robotics-role.json")"
+contains "state hands the page the private values" "999888777" "$(curl -sf $base/state)"
+# A saved Selection whose Project is gone still loads, with the missing slug reported.
+curl -sf -XPOST -d '{"name":"stale-role","picks":[{"slug":"oxmpl","parts":[]},{"slug":"gone","parts":[]}],"private":false}' $base/save >/dev/null
+contains "loading a stale Selection reports the dropped slug" '"dropped":["gone"]' \
+  "$(curl -sf "$base/selection?name=stale-role" | tr -d ' ')"
+contains "and still loads the rest" '"slug":"oxmpl"' "$(curl -sf "$base/selection?name=stale-role" | tr -d ' ')"
 check "state lists the saved Selection" "robotics-role" "$(curl -sf $base/state | grep -o '"selections":\["[^"]*"' | cut -d'"' -f4)"
 
 curl -sf -XPOST -d '{"picks":[{"slug":"oxmpl","parts":[]}],"private":true}' $base/build >/dev/null
