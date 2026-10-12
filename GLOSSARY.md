@@ -8,6 +8,10 @@ Personal site, blog and CV of Junior Sundar, built from one repo.
 A piece of work with a public artifact (repo, paper, demo), recorded once and shown in any number of views. Employer work without a public artifact is not a Project; it stays in Experience.
 _Avoid_: portfolio item, repo
 
+**Project source**:
+The single record of all Projects, from which every view is rendered.
+_Avoid_: projects data, project list
+
 **Experience**:
 A role held at an employer, with its highlights. Work under NDA lives here, never as a Project.
 _Avoid_: job, position
