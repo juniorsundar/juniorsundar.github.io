@@ -1,12 +1,30 @@
-{{- /* About-page CV, rendered from data/cv.yaml: the same file cv/cv.typ turns into /cv.pdf. */ -}}
+{{- /* About-page CV: every section generated from the same data as /cv.pdf (data/cv.yaml plus the Project source).
+       Projects come from data/projects.yaml, newest first, in CV form; everything else from data/cv.yaml. */ -}}
 {{- $cv := hugo.Data.cv -}}
 <p class="cv-download"><a href="{{ "cv.pdf" | relURL }}">Download CV (PDF)</a></p>
 {{- range $section := slice
   (dict "title" "Experience" "key" "experience")
   (dict "title" "Projects" "key" "projects")
+  (dict "title" "Certifications" "key" "certifications")
   (dict "title" "Publications" "key" "publications")
-  (dict "title" "Education" "key" "education")
-  (dict "title" "Certifications" "key" "certifications") }}
+  (dict "title" "Education" "key" "education") }}
+{{- if eq $section.key "projects" }}
+{{- with hugo.Data.projects }}
+<h2 id="projects">{{ $section.title }} <a class="cv-more" href="{{ "/projects/" | relURL }}">with screenshots</a></h2>
+{{- range sort . "start" "desc" }}
+{{- $end := "Present" }}{{ with .end }}{{ $end = (time.AsTime (printf "%s-01" .)).Format "January 2006" }}{{ end }}
+<div class="cv-entry">
+  <div class="cv-head">
+    <strong><a href="{{ .link }}">{{ or .title .name }}</a></strong>
+    <span class="cv-date">{{ (time.AsTime (printf "%s-01" .start)).Format "January 2006" }} - {{ $end }}</span>
+  </div>
+  {{- with .role }}<div class="cv-sub">{{ . }}</div>{{ end }}
+  <ul><li>{{ .summary | markdownify }}</li>{{ range .highlights }}<li>{{ . | markdownify }}</li>{{ end }}</ul>
+  {{- with .tags }}<p class="cv-tags">{{ range $i, $t := . }}{{ if $i }} {{ end }}<span>{{ if $i }}·&nbsp;{{ end }}{{ $t }}</span>{{ end }}</p>{{ end }}
+</div>
+{{- end }}
+{{- end }}
+{{- else }}
 {{- with index $cv $section.key }}
 <h2 id="{{ $section.key }}">{{ $section.title }}</h2>
 {{- range . }}
@@ -25,6 +43,7 @@
   {{- range slice .skills .hardware .software }}{{ with . }}{{ $tags = $tags | append . }}{{ end }}{{ end }}
   {{- with $tags }}<p class="cv-tags">{{ range $i, $t := . }}{{ if $i }} {{ end }}<span>{{ if $i }}·&nbsp;{{ end }}{{ $t }}</span>{{ end }}</p>{{ end }}
 </div>
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

@@ -152,19 +152,6 @@ experience:
       - Solidworks)
       - Linux (Ubuntu)
       - MQTT
-projects:
-  - title: OxMPL - Oxidised Motion-Planning Library
-    date: May 2024 - Present
-    description: Developer/Maintainer of Motion-Planning Library written in Rust
-    link: https://github.com/juniorsundar/oxmpl
-  - title: All-in-One PX4 Log Tool
-    date: May 2024 - Present
-    description: Developer/Maintainer of PX4 log-handling CLI Tool written in Python
-    link: https://github.com/tiiuae/px4-log-tool
-  - title: Roam and Agenda in Neorg
-    date: August 2024 - March 2025
-    description: Developer/Maintainer of Neovim Plugin written in Lua
-    link: https://github.com/juniorsundar/neorg-extras
 certifications:
   - title: Introduction to Concurrent Programming with GPUs
     date: May 2025

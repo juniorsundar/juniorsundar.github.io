@@ -9,6 +9,6 @@ I'm Junior Sundar, a Lead Engineer at the Technology Innovation Institute in Abu
 
 Outside work I write [Rust motion-planning code](https://github.com/juniorsundar/oxmpl), Neovim plugins, and stories, which live in my [digital garden](garden:).
 
-Everything below is generated from the same file as my CV.
+Everything below is generated from the same data as my CV.
 
 {{< cv >}}

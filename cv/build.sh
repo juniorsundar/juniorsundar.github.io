@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Build the CV PDF from data/cv.yaml. Usage (inside `nix develop`):
+# Build the CV PDF from data/cv.yaml + data/projects.yaml. Usage (inside `nix develop`):
 #   cv/build.sh [out.pdf]                                   public CV, default static/cv.pdf
 #   CV_PHONE="…" CV_ADDRESS="…" cv/build.sh cv-full.pdf     adds phone/address (never commit that file)
+# For a Tailored CV (a chosen subset of projects), use the picker: `nix run .#pick`.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 out="${1:-static/cv.pdf}"
