@@ -1,12 +1,11 @@
-{{- /* Cards from data/projects.yaml. Context: a slice of project entries. Images live in assets/projects/ so a missing one fails the build. */ -}}
+{{- /* Cards from data/projects.yaml (the Project source). Context: a slice of project entries. Images live in assets/projects/; a missing one falls back to a text-only card. */ -}}
 <div class="project-cards">
 {{- range . }}
-  {{- $img := resources.Get (printf "projects/%s" .image) }}
-  {{- if not $img }}{{ errorf "data/projects.yaml: %q has no image assets/projects/%s" .name .image }}{{ end }}
+  {{- $img := "" }}{{ with .image }}{{ $img = resources.Get (printf "projects/%s" .) }}{{ if not $img }}{{ errorf "data/projects.yaml: %q has no image assets/projects/%s" $.name . }}{{ end }}{{ end }}
   <a class="project-card" href="{{ .link }}">
     {{- with $img }}<img src="{{ .RelPermalink }}" alt="" loading="lazy">{{ end }}
     <span class="project-name">{{ .name }}</span>
-    <span class="project-desc">{{ .desc }}</span>
+    <span class="project-desc">{{ .summary }}</span>
   </a>
 {{- end }}
 </div>

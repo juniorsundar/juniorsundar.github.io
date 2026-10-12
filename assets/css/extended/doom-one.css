@@ -58,3 +58,5 @@ pre { border: 1px solid var(--border); }
 .cv-entry ul { margin: .4rem 0; }
 .cv-tags { margin: .2rem 0 0; }
 .cv-tags span, .cv-sub .nowrap { white-space: nowrap; }
+/* About page: the Projects heading links to the card view */
+.cv-more { font-size: .8rem; font-weight: 400; color: var(--secondary); }

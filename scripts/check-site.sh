@@ -3,10 +3,11 @@
 # Usage: nix develop -c scripts/check-site.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
-out=$(mktemp -d); trap 'rm -rf "$out" content/posts/zz-archetype-check' EXIT
+out=$(mktemp -d); trap 'rm -rf "$out" content/posts/zz-archetype-check; cp "$out/projects.yaml" data/projects.yaml 2>/dev/null || true' EXIT
 fail=0
 check() { if grep -q -- "$2" "$3"; then echo "ok   $1"; else echo "FAIL $1"; fail=1; fi; }
 refute() { if grep -q -- "$2" "$3"; then echo "FAIL $1"; fail=1; else echo "ok   $1"; fi; }
+same() { if [ "$2" = "$3" ]; then echo "ok   $1"; else echo "FAIL $1"; echo "  expected: $2"; echo "  actual:   $3"; fail=1; fi; }
 
 # Archetype: a new bundle gets the decided front matter.
 hugo new content posts/zz-archetype-check/index.md >/dev/null
@@ -44,6 +45,33 @@ refute "no phone on about"        '+971' "$out/live/about/index.html"
 check  "projects page has cards"  'class="project-card' "$out/live/projects/index.html"
 check  "featured row on home"     'class="featured-projects' "$out/live/index.html"
 check  "featured row has a card"  'class="project-card' "$out/live/index.html"
+check  "card shows the summary"   'project-desc">Sampling-based motion planners in Rust' "$out/live/projects/index.html"
+
+# About page: every Project in CV form, newest first, in the same section order as the PDF.
+about="$out/live/about/index.html"
+cp data/projects.yaml "$out/projects.yaml"
+proj=$(sed -n '/id="projects"/,/id="certifications"/p' "$about")
+same "about projects: every Project, newest first" \
+  "https://github.com/juniorsundar/refer.nvim https://github.com/juniorsundar/cling.nvim https://github.com/juniorsundar/neorg-extras https://github.com/juniorsundar/oxmpl https://github.com/tiiuae/px4-log-tool https://github.com/juniorsundar/move_bot_sim https://github.com/juniorsundar/ur5_gripper_control " \
+  "$(printf '%s\n' "$proj" | grep -o 'href="https://github.com/[^"]*"' | sed 's/href="//;s/"$//' | tr '\n' ' ')"
+check  "about projects: role shown"    'class="cv-sub">Developer/Maintainer' "$about"
+check  "about projects: dates shown"   'February 2026 - Present' "$about"
+check  "about projects: tags shown"    'class="cv-tags"' "$about"
+check  "about projects: heading links to the card view" 'class="cv-more" href="/projects/"' "$about"
+same "about sections match the PDF order" "yes" \
+  "$([ "$(grep -n 'id="certifications"' "$about" | cut -d: -f1)" -lt "$(grep -n 'id="publications"' "$about" | cut -d: -f1)" ] && echo yes || echo no)"
+
+# A Project with no image builds and renders a text-only card.
+printf '\n- slug: text-only-check\n  name: text-only-check\n  summary: A Project with no image.\n  link: https://example.com/x\n  start: "2020-01"\n' >> data/projects.yaml
+if hugo --quiet --destination "$out/noimg" --baseURL https://juniorsundar.github.io/; then
+  sed -n '/text-only-check/,/<\/a>/p' "$out/noimg/projects/index.html" > "$out/card.html"
+  check  "card without an image still shows"  'project-name">text-only-check' "$out/card.html"
+  refute "card without an image has no <img>" '<img' "$out/card.html"
+else
+  echo "FAIL a Project with no image breaks the build"; fail=1
+fi
+cp "$out/projects.yaml" data/projects.yaml
+refute "temporary Project is gone"                    'text-only-check' "$out/live/projects/index.html"
 check  "recent posts heading"     'class="recent-posts"' "$out/drafts/index.html"
 refute "no empty posts heading"   'class="recent-posts"' "$out/live/index.html"
 

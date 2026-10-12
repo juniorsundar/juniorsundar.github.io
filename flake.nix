@@ -13,5 +13,18 @@
           TYPST_FONT_PATHS = pkgs.lib.makeSearchPath "share/fonts" [ pkgs.roboto pkgs.source-sans pkgs.font-awesome ];
         };
       });
+      # The Tailored CV picker (issue #24): `nix run .#pick`. Node is only needed here, not by the site build,
+      # so the dev shell CI uses stays at hugo + typst.
+      apps = forAll (pkgs: {
+        pick = {
+          type = "app";
+          program = "${pkgs.writeShellScript "cv-pick" ''
+            export TYPST_FONT_PATHS=${pkgs.lib.makeSearchPath "share/fonts" [ pkgs.roboto pkgs.source-sans pkgs.font-awesome ]}
+            export PATH=${pkgs.nodejs}/bin:${pkgs.typst}/bin:$PATH
+            export CV_ROOT="$PWD"
+            exec node ${./cv/pick.mjs}
+          ''}";
+        };
+      });
     };
 }
