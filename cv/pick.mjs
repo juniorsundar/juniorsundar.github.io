@@ -59,53 +59,53 @@ body{margin:0;display:grid;grid-template-columns:27rem 1fr;height:100vh;font:14p
 aside{padding:1rem;overflow:auto}.p{padding:.5rem;border-radius:4px}.p:hover{background:#3f444a}.inc{display:block;cursor:pointer}
 small{display:block;opacity:.7;margin-left:1.6rem}.parts{display:none;margin:.4rem 0 .2rem 1.6rem;gap:.2rem .9rem;flex-wrap:wrap;font-size:12px}
 .p.sel .parts{display:flex}.parts label{cursor:pointer}.parts .na{opacity:.35}
-#c{font-size:1.2rem;margin:.5rem 0 1rem}#c.over{color:#ff6c6b}
+#count{font-size:1.2rem;margin:.5rem 0 1rem}#count.over{color:#ff6c6b}
 #priv{margin:.6rem 0}.bar{display:flex;gap:.4rem;margin:.6rem 0;flex-wrap:wrap}
 button,input,select{font:inherit;background:#3f444a;color:inherit;border:1px solid #565c64;border-radius:4px;padding:.2rem .4rem}
 iframe{width:100%;height:100%;border:0}
 </style>
 <aside>
-  <b>Tailored CV</b><div id=c>building…</div>
+  <b>Tailored CV</b><div id=count>building…</div>
   <div class=bar><input id=sel-name placeholder="selection name" size=14><button id=save>Save</button>
   <select id=saved><option value="">load…</option></select></div>
-  <p id=priv><label><input type=checkbox id=pv ${privateDetails("CV_PHONE") || privateDetails("CV_ADDRESS") ? "" : "disabled"}> include phone &amp; address</label>
-  <small id=pvvals></small></p>
-</aside><iframe id=f></iframe>
+  <p id=priv><label><input type=checkbox id=privtoggle ${privateDetails("CV_PHONE") || privateDetails("CV_ADDRESS") ? "" : "disabled"}> include phone &amp; address</label>
+  <small id=privvalues></small></p>
+</aside><iframe id=pdf></iframe>
 <script>
 const PARTS=${JSON.stringify(PARTS)};
 let projects=[], dropped=[];
 const picks=()=>[...document.querySelectorAll(".p")].filter(p=>p.querySelector(".on").checked)
   .map(p=>({slug:p.dataset.slug,parts:[...p.querySelectorAll(".parts input:checked")].map(i=>i.value)}));
-async function go(){
+async function refresh(){
   [...document.querySelectorAll(".p")].forEach(p=>p.classList.toggle("sel",p.querySelector(".on").checked));
-  pvvals.textContent=${JSON.stringify(privateDetails("CV_PHONE") || privateDetails("CV_ADDRESS") ? "reads CV_PHONE/CV_ADDRESS; never saved · " : "set CV_PHONE/CV_ADDRESS to enable")}
-    +(pv.checked?${JSON.stringify([privateDetails("CV_PHONE"), privateDetails("CV_ADDRESS")].filter(Boolean).join(" · ") || "(nothing set)")}:"");
-  const r=await (await fetch("/build",{method:"POST",body:JSON.stringify({picks:picks(),private:pv.checked})})).json();
-  const gone=[...new Set([...dropped,...r.dropped])];
-  c.textContent=r.pages+" page"+(r.pages>1?"s":"")+", last page "+r.fill+"% full"+(r.pages>2?"  ⚠ over 2-page budget":"")
+  privvalues.textContent=${JSON.stringify(privateDetails("CV_PHONE") || privateDetails("CV_ADDRESS") ? "reads CV_PHONE/CV_ADDRESS; never saved · " : "set CV_PHONE/CV_ADDRESS to enable")}
+    +(privtoggle.checked?${JSON.stringify([privateDetails("CV_PHONE"), privateDetails("CV_ADDRESS")].filter(Boolean).join(" · ") || "(nothing set)")}:"");
+  const res=await (await fetch("/build",{method:"POST",body:JSON.stringify({picks:picks(),private:privtoggle.checked})})).json();
+  const gone=[...new Set([...dropped,...res.dropped])];
+  count.textContent=res.pages+" page"+(res.pages>1?"s":"")+", last page "+res.fill+"% full"+(res.pages>2?"  ⚠ over 2-page budget":"")
     +(gone.length?"  ·  dropped: "+gone.join(", "):"");
-  c.className=r.pages>2?"over":"";f.src="/cv.pdf?"+Date.now();
+  count.className=res.pages>2?"over":"";pdf.src="/cv.pdf?"+Date.now();
 }
 function row(p){const has={highlights:!!(p.highlights||[]).length,tags:!!(p.tags||[]).length,compact:true};
   const part=k=>'<label class="'+(has[k]?"":"na")+'"><input type=checkbox value='+k+(k!=="compact"&&has[k]?" checked":"")+(k!=="compact"&&!has[k]?" disabled":"")+'>'+k+'</label>';
   return '<div class=p data-slug="'+p.slug+'"><label class=inc><input type=checkbox class=on> '+(p.title||p.name)
     +'<small>'+p.start+(p.end?" – "+p.end:" – now")+' · '+p.summary+'</small></label>'
     +'<div class=parts>'+PARTS.map(part).join("")+'</div></div>'}
-const el=document.querySelector("aside");
+const sidebar=document.querySelector("aside");
 async function init(){const st=await (await fetch("/state")).json();projects=st.projects;
-  el.insertAdjacentHTML("beforeend",projects.map(row).join(""));
+  sidebar.insertAdjacentHTML("beforeend",projects.map(row).join(""));
   saved.insertAdjacentHTML("beforeend",st.selections.map(n=>'<option>'+n+'</option>').join(""));
-  document.querySelectorAll("aside input").forEach(i=>i.onchange=go);
+  document.querySelectorAll("aside input").forEach(i=>i.onchange=refresh);
   document.getElementById("save").onclick=async()=>{const n=document.getElementById("sel-name").value.trim();if(!n)return;
-    const r=await (await fetch("/save",{method:"POST",body:JSON.stringify({name:n,picks:picks(),private:pv.checked})})).json();
-    if(r.error){alert(r.error);return}
+    const res=await (await fetch("/save",{method:"POST",body:JSON.stringify({name:n,picks:picks(),private:privtoggle.checked})})).json();
+    if(res.error){alert(res.error);return}
     if(![...saved.options].some(o=>o.value===n))saved.insertAdjacentHTML("beforeend",'<option>'+n+'</option>');
     saved.value=n};
-  saved.onchange=()=>saved.value&&load(saved.value);go()}
+  saved.onchange=()=>saved.value&&load(saved.value);refresh()}
 async function load(name){const s=await (await fetch("/selection?name="+encodeURIComponent(name))).json();
   document.querySelectorAll(".p").forEach(p=>{const pick=s.picks.find(x=>x.slug===p.dataset.slug);p.querySelector(".on").checked=!!pick;
     p.querySelectorAll(".parts input").forEach(i=>i.checked=!!pick&&pick.parts.includes(i.value))});
-  dropped=s.dropped||[];pv.checked=!!s.private;go()}
+  dropped=s.dropped||[];privtoggle.checked=!!s.private;refresh()}
 init();
 </script>`;
 
